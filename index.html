@@ -504,6 +504,18 @@
         }
 
         /* Responsive Design */
+        @media (max-width: 1024px) {
+            .agent-section > div > div:last-child {
+                flex-direction: column;
+                align-items: center;
+                text-align: center;
+            }
+
+            .agent-section .agent-contact {
+                justify-content: center;
+            }
+        }
+
         @media (max-width: 968px) {
             .calculator-grid {
                 grid-template-columns: 1fr;
@@ -759,20 +771,58 @@
 
     <!-- Agent Section -->
     <section class="agent-section">
-        <div class="agent-content">
-            <img src="lisa_murray_pix.png"
-                 alt="Lisa Murray" class="agent-photo-large">
-            <h2 class="display-font">Lisa Murray</h2>
-            <p class="brokerage">Russ Lyon Sotheby's International Realty</p>
-            <p style="margin-bottom: 2rem; line-height: 1.8;">
-                Specializing in Fountain Hills and Scottsdale luxury real estate, Lisa Murray brings unparalleled expertise
-                and dedication to every transaction. Whether you're buying your dream home or selling your property,
-                Lisa's commitment to excellence ensures exceptional results.
-            </p>
-            <div class="agent-contact">
-                <a href="tel:6024000250" class="contact-btn">Call Now</a>
-                <a href="mailto:Lisa@LisaMurrayRealtor.com" class="contact-btn">Email Lisa</a>
-                <a href="https://www.lisamurrayrealtor.com" target="_blank" class="contact-btn">Visit Website</a>
+        <div class="container">
+            <h2 class="display-font" style="text-align: center; color: var(--white); margin-bottom: 3rem; font-size: 2.5rem; letter-spacing: 2px;">Meet Your Trusted Real Estate Expert</h2>
+            <div style="display: flex; gap: 3rem; align-items: flex-start; max-width: 1200px; margin: 0 auto;">
+                <div style="flex-shrink: 0;">
+                    <img src="lisa_murray_pix.png"
+                         alt="Lisa Murray"
+                         style="width: 250px; height: 250px; border-radius: 50%; border: 5px solid var(--accent-gold); object-fit: cover;">
+                </div>
+                <div style="flex: 1; text-align: left;">
+                    <h3 class="display-font" style="font-size: 2rem; margin-bottom: 0.5rem; color: var(--white);">Lisa Murray</h3>
+                    <p style="color: var(--accent-gold); font-size: 1.2rem; margin-bottom: 1.5rem; letter-spacing: 1px;">Associate Broker | Russ Lyon Sotheby's International Realty</p>
+
+                    <div style="margin-bottom: 2rem; line-height: 1.8; color: rgba(255,255,255,0.9);">
+                        <p style="margin-bottom: 1rem;">Lisa Murray is a leading Arizona Realtor who aims to make real estate fun, inviting, and seamless for everyone involved. As a professional who has been servicing residential transactions since 2004, Lisa has cultivated an extensive background within this industry and has fostered a deep understanding of the buying, selling, negotiating, and marketing processes that guarantees a positive experience for every one of her clients.</p>
+
+                        <p style="margin-bottom: 1rem;">Though Lisa was raised in Minnesota, she quickly became fluent with the Arizona landscape and rose to become Fountain Hills and Scottsdale's #1 agent since 2004. In addition, as a result of working as a flight attendant with Northwest Airlines for 17 years, Lisa developed profound expertise in customer service and interpersonal skills, which are key assets that shaped her to become the top real estate leader she is today.</p>
+
+                        <p style="margin-bottom: 1rem;">Whether you are buying or selling, Lisa has dedicated herself to not only being an agent, but also a mentor, consultant, and friend. Her goal is to empower her clients with in-depth information, knowledge, and insight so they can make the best decision for themselves and their futures. Overall, she has a true ardency for her career, strives to make win-win scenarios for every situation, and is always putting her clients first. This, along with her focus on achieving nothing but success, and mission to provide smooth experiences for her clients, you can solidify your confidence that you are in the best hands from start to finish.</p>
+
+                        <p>When Lisa is not working, you can find her spending time with her dog Ozzie, attending business conferences, networking, and giving back to the town through her involvement with the Fountain Hills Chamber of Commerce and by supporting local community advancing efforts.</p>
+                    </div>
+
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; margin-bottom: 2rem;">
+                        <div>
+                            <h4 style="color: var(--accent-gold); margin-bottom: 1rem; font-size: 1.1rem; letter-spacing: 1px;">QUALIFICATIONS</h4>
+                            <ul style="list-style: none; padding: 0; color: rgba(255,255,255,0.85); line-height: 1.6;">
+                                <li>• Associate Broker</li>
+                                <li>• Certified Luxury Home Marketing Specialist (CLHMS)</li>
+                                <li>• Certified Residential Specialist (CRS)</li>
+                                <li>• Certified Risk Management Specialist (rCRMS)</li>
+                                <li>• Certified Negotiation Expert (CNE)</li>
+                                <li>• Graduate of the REALTOR Institute (GRI)</li>
+                                <li>• Certified Distressed Property Expert (CDPE)</li>
+                            </ul>
+                        </div>
+                        <div>
+                            <h4 style="color: var(--accent-gold); margin-bottom: 1rem; font-size: 1.1rem; letter-spacing: 1px;">INDUSTRY AWARDS</h4>
+                            <ul style="list-style: none; padding: 0; color: rgba(255,255,255,0.85); line-height: 1.6;">
+                                <li>• Remax Hall of Fame</li>
+                                <li>• Lifetime Achievement</li>
+                                <li>• Platinum Awards</li>
+                                <li style="margin-top: 1rem; font-weight: bold; color: var(--accent-gold);">Fountain Hills & Scottsdale's #1 Agent Since 2004</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="agent-contact" style="display: flex; gap: 1rem; justify-content: flex-start;">
+                        <a href="tel:6024000250" class="contact-btn">Call Now</a>
+                        <a href="mailto:Lisa@LisaMurrayRealtor.com" class="contact-btn">Email Lisa</a>
+                        <a href="https://www.lisamurrayrealtor.com" target="_blank" class="contact-btn">Visit Website</a>
+                    </div>
+                </div>
             </div>
         </div>
     </section>
