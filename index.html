@@ -1,0 +1,950 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mortgage Calculator - Lisa Murray | Russ Lyon Sotheby's International Realty</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary-black: #000000;
+            --dark-gray: #1a1a1a;
+            --medium-gray: #333333;
+            --light-gray: #666666;
+            --silver: #999999;
+            --off-white: #f5f5f5;
+            --white: #ffffff;
+            --accent-gold: #c9a961;
+            --sothebys-blue: #003057;
+            --success-green: #48BB78;
+            --hover-gold: #b8984f;
+        }
+
+        /* Typography */
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            line-height: 1.6;
+            color: var(--medium-gray);
+            background-color: var(--white);
+        }
+
+        .display-font {
+            font-family: Georgia, 'Times New Roman', Times, serif;
+            font-weight: 300;
+            letter-spacing: 1px;
+        }
+
+        /* Header */
+        .header {
+            background: linear-gradient(135deg, var(--primary-black) 0%, var(--dark-gray) 100%);
+            color: var(--white);
+            padding: 2rem 0;
+            position: relative;
+            border-bottom: 3px solid var(--accent-gold);
+        }
+
+        .header-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        .header-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+        }
+
+        .logo-section {
+            display: flex;
+            align-items: center;
+            gap: 2rem;
+        }
+
+        .agent-photo {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            border: 3px solid var(--accent-gold);
+            object-fit: cover;
+        }
+
+        .logo {
+            color: var(--white);
+            text-decoration: none;
+        }
+
+        .logo h2 {
+            font-family: Georgia, serif;
+            font-size: 1.8rem;
+            font-weight: 300;
+            letter-spacing: 2px;
+            margin-bottom: 0.2rem;
+        }
+
+        .logo p {
+            font-size: 0.9rem;
+            color: var(--accent-gold);
+            letter-spacing: 1px;
+        }
+
+        .contact-info {
+            text-align: right;
+        }
+
+        .contact-info a {
+            color: var(--white);
+            text-decoration: none;
+            display: block;
+            margin-bottom: 0.3rem;
+            transition: color 0.3s ease;
+        }
+
+        .contact-info a:hover {
+            color: var(--accent-gold);
+        }
+
+        .header-title {
+            text-align: center;
+            margin-top: 2rem;
+        }
+
+        .header-title h1 {
+            font-family: Georgia, serif;
+            font-size: 3rem;
+            font-weight: 300;
+            margin-bottom: 0.5rem;
+            letter-spacing: 2px;
+        }
+
+        .header-title p {
+            font-size: 1.1rem;
+            color: var(--silver);
+            max-width: 700px;
+            margin: 0 auto;
+            letter-spacing: 0.5px;
+        }
+
+        /* Main Container */
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        .calculator-container {
+            padding: 4rem 0;
+            background: var(--off-white);
+        }
+
+        .calculator-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+            margin-top: 2rem;
+        }
+
+        /* Calculator Form */
+        .calculator-form {
+            background: var(--white);
+            padding: 3rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+            border-top: 3px solid var(--accent-gold);
+        }
+
+        .form-section {
+            margin-bottom: 2rem;
+        }
+
+        .form-section h3 {
+            font-family: Georgia, serif;
+            font-size: 1.4rem;
+            color: var(--dark-gray);
+            margin-bottom: 1rem;
+            font-weight: 300;
+            letter-spacing: 1px;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+            color: var(--medium-gray);
+            letter-spacing: 0.5px;
+        }
+
+        .input-group {
+            position: relative;
+            display: flex;
+            align-items: center;
+        }
+
+        .input-prefix,
+        .input-suffix {
+            position: absolute;
+            color: var(--light-gray);
+            font-weight: 500;
+            z-index: 2;
+        }
+
+        .input-prefix {
+            left: 1rem;
+        }
+
+        .input-suffix {
+            right: 1rem;
+        }
+
+        .form-group input,
+        .form-group select {
+            width: 100%;
+            padding: 1rem;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 1rem;
+            background: var(--white);
+            color: var(--dark-gray);
+            transition: border-color 0.3s ease;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: var(--accent-gold);
+        }
+
+        .has-prefix input {
+            padding-left: 2.5rem;
+        }
+
+        .has-suffix input {
+            padding-right: 2.5rem;
+        }
+
+        .calculate-btn {
+            width: 100%;
+            padding: 1.2rem 2rem;
+            background: var(--accent-gold);
+            color: var(--white);
+            border: none;
+            border-radius: 4px;
+            font-size: 1.1rem;
+            font-weight: 500;
+            letter-spacing: 1px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+        }
+
+        .calculate-btn:hover {
+            background: var(--hover-gold);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(201, 169, 97, 0.3);
+        }
+
+        /* Results Section */
+        .results-section {
+            background: var(--white);
+            padding: 3rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+            border-top: 3px solid var(--sothebys-blue);
+        }
+
+        .results-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+        }
+
+        .results-header h3 {
+            font-family: Georgia, serif;
+            font-size: 1.5rem;
+            color: var(--dark-gray);
+            font-weight: 300;
+            letter-spacing: 1px;
+        }
+
+        .results-actions {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .action-btn {
+            padding: 0.6rem 1.2rem;
+            background: var(--dark-gray);
+            color: var(--white);
+            border: none;
+            border-radius: 4px;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: background 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .action-btn:hover {
+            background: var(--accent-gold);
+        }
+
+        .results-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .result-card {
+            background: var(--off-white);
+            padding: 1.5rem;
+            border-radius: 6px;
+            text-align: center;
+            border: 1px solid #e5e5e5;
+        }
+
+        .result-label {
+            font-size: 0.9rem;
+            color: var(--light-gray);
+            margin-bottom: 0.5rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .result-value {
+            font-family: Georgia, serif;
+            font-size: 1.8rem;
+            font-weight: 400;
+            color: var(--dark-gray);
+        }
+
+        .result-value.primary {
+            color: var(--accent-gold);
+            font-size: 2.2rem;
+        }
+
+        /* Payment Breakdown */
+        .payment-breakdown {
+            margin-top: 2rem;
+            border-top: 1px solid #e5e5e5;
+            padding-top: 2rem;
+        }
+
+        .breakdown-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.75rem 0;
+            border-bottom: 1px solid #f0f0f0;
+        }
+
+        .breakdown-item:last-child {
+            border-bottom: none;
+            font-weight: 600;
+            padding-top: 1rem;
+            border-top: 2px solid var(--accent-gold);
+            font-size: 1.1rem;
+        }
+
+        /* Amortization Section */
+        .amortization-section {
+            background: var(--white);
+            padding: 3rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+            margin-top: 3rem;
+        }
+
+        .amortization-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+        }
+
+        .amortization-header h3 {
+            font-family: Georgia, serif;
+            font-size: 1.5rem;
+            color: var(--dark-gray);
+            font-weight: 300;
+            letter-spacing: 1px;
+        }
+
+        .year-selector select {
+            padding: 0.5rem 1rem;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            background: var(--white);
+        }
+
+        .amortization-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 1rem;
+        }
+
+        .amortization-table th,
+        .amortization-table td {
+            padding: 0.75rem;
+            text-align: left;
+            border-bottom: 1px solid #f0f0f0;
+        }
+
+        .amortization-table th {
+            background: var(--off-white);
+            font-weight: 600;
+            color: var(--dark-gray);
+            text-transform: uppercase;
+            font-size: 0.85rem;
+            letter-spacing: 1px;
+        }
+
+        .table-scroll {
+            max-height: 400px;
+            overflow-y: auto;
+            border: 1px solid #e5e5e5;
+            border-radius: 6px;
+        }
+
+        /* Agent Section */
+        .agent-section {
+            background: var(--dark-gray);
+            color: var(--white);
+            padding: 4rem 0;
+            text-align: center;
+        }
+
+        .agent-content {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        .agent-photo-large {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            border: 4px solid var(--accent-gold);
+            margin: 0 auto 2rem;
+            display: block;
+            object-fit: cover;
+        }
+
+        .agent-content h2 {
+            font-family: Georgia, serif;
+            font-size: 2rem;
+            font-weight: 300;
+            margin-bottom: 0.5rem;
+            letter-spacing: 2px;
+        }
+
+        .agent-content .brokerage {
+            color: var(--accent-gold);
+            font-size: 1.1rem;
+            margin-bottom: 2rem;
+            letter-spacing: 1px;
+        }
+
+        .agent-contact {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .contact-btn {
+            padding: 0.8rem 2rem;
+            background: var(--accent-gold);
+            color: var(--white);
+            text-decoration: none;
+            border-radius: 4px;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-size: 0.9rem;
+        }
+
+        .contact-btn:hover {
+            background: var(--hover-gold);
+            transform: translateY(-2px);
+        }
+
+        /* Footer */
+        .footer {
+            background: var(--primary-black);
+            color: var(--silver);
+            text-align: center;
+            padding: 2rem 0;
+            border-top: 3px solid var(--accent-gold);
+        }
+
+        .footer p {
+            margin-bottom: 0.5rem;
+            font-size: 0.9rem;
+        }
+
+        .footer-link {
+            color: var(--accent-gold);
+            text-decoration: none;
+        }
+
+        .footer-link:hover {
+            text-decoration: underline;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 968px) {
+            .calculator-grid {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+
+            .results-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .header-top {
+                flex-direction: column;
+                gap: 1rem;
+                text-align: center;
+            }
+
+            .logo-section {
+                flex-direction: column;
+            }
+
+            .contact-info {
+                text-align: center;
+            }
+
+            .agent-contact {
+                flex-direction: column;
+                align-items: center;
+                gap: 1rem;
+            }
+
+            .header-title h1 {
+                font-size: 2rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .calculator-form,
+            .results-section,
+            .amortization-section {
+                padding: 2rem;
+            }
+
+            .amortization-table {
+                font-size: 0.9rem;
+            }
+        }
+
+        /* Hidden class */
+        .hidden {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="header-content">
+            <div class="header-top">
+                <div class="logo-section">
+                    <img src="https://images.squarespace-cdn.com/content/v1/5f5be510cb09345a3c55f426/3ef0c7e0-1264-46e2-aee7-954f265e410b/Main+-+Logo-+Horizontal+-+White.png"
+                         alt="Lisa Murray" class="agent-photo" style="width: 80px; height: 80px; border-radius: 50%;">
+                    <a href="https://www.lisamurrayrealtor.com" class="logo">
+                        <h2 class="display-font">LISA MURRAY</h2>
+                        <p>Russ Lyon Sotheby's International Realty</p>
+                    </a>
+                </div>
+                <div class="contact-info">
+                    <a href="tel:6024000250">📞 (602) 400-0250</a>
+                    <a href="mailto:Lisa@LisaMurrayRealtor.com">✉️ Lisa@LisaMurrayRealtor.com</a>
+                    <a href="https://www.lisamurrayrealtor.com" target="_blank">🌐 LisaMurrayRealtor.com</a>
+                </div>
+            </div>
+            <div class="header-title">
+                <h1 class="display-font">Mortgage Calculator</h1>
+                <p>Calculate your monthly payments and discover your purchasing power in the Arizona luxury real estate market</p>
+            </div>
+        </div>
+    </header>
+
+    <!-- Calculator Container -->
+    <section class="calculator-container">
+        <div class="container">
+            <div class="calculator-grid">
+                <!-- Calculator Form -->
+                <div class="calculator-form">
+                    <div class="form-section">
+                        <h3>🏠 Loan Details</h3>
+                        <div class="form-group">
+                            <label for="loanAmount">Home Price / Loan Amount</label>
+                            <div class="input-group has-prefix">
+                                <span class="input-prefix">$</span>
+                                <input type="number" id="loanAmount" placeholder="850,000" min="0" step="1000">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="downPayment">Down Payment</label>
+                            <div class="input-group has-prefix">
+                                <span class="input-prefix">$</span>
+                                <input type="number" id="downPayment" placeholder="170,000" min="0" step="1000">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="interestRate">Interest Rate</label>
+                            <div class="input-group has-suffix">
+                                <input type="number" id="interestRate" placeholder="6.75" min="0" max="20" step="0.01">
+                                <span class="input-suffix">%</span>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="loanTerm">Loan Term</label>
+                            <select id="loanTerm">
+                                <option value="15">15 years</option>
+                                <option value="20">20 years</option>
+                                <option value="25">25 years</option>
+                                <option value="30" selected>30 years</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-section">
+                        <h3>💰 Additional Costs</h3>
+                        <div class="form-group">
+                            <label for="propertyTax">Annual Property Tax</label>
+                            <div class="input-group has-prefix">
+                                <span class="input-prefix">$</span>
+                                <input type="number" id="propertyTax" placeholder="8,500" min="0" step="100">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="homeInsurance">Annual Home Insurance</label>
+                            <div class="input-group has-prefix">
+                                <span class="input-prefix">$</span>
+                                <input type="number" id="homeInsurance" placeholder="2,800" min="0" step="100">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="pmi">PMI (if applicable)</label>
+                            <div class="input-group has-prefix">
+                                <span class="input-prefix">$</span>
+                                <input type="number" id="pmi" placeholder="0" min="0" step="10">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="hoaFees">HOA Fees (monthly)</label>
+                            <div class="input-group has-prefix">
+                                <span class="input-prefix">$</span>
+                                <input type="number" id="hoaFees" placeholder="250" min="0" step="10">
+                            </div>
+                        </div>
+                    </div>
+
+                    <button type="button" class="calculate-btn" onclick="calculateMortgage()">
+                        Calculate Payment
+                    </button>
+                </div>
+
+                <!-- Results Section -->
+                <div class="results-section">
+                    <div class="results-header">
+                        <h3>📊 Payment Results</h3>
+                        <div class="results-actions">
+                            <button class="action-btn" onclick="printResults()">Print</button>
+                            <button class="action-btn" onclick="downloadPDF()">Save PDF</button>
+                        </div>
+                    </div>
+
+                    <div id="resultsContent" class="hidden">
+                        <div class="results-grid">
+                            <div class="result-card">
+                                <div class="result-label">Monthly Payment</div>
+                                <div class="result-value primary" id="monthlyPayment">$0</div>
+                            </div>
+                            <div class="result-card">
+                                <div class="result-label">Total Interest</div>
+                                <div class="result-value" id="totalInterest">$0</div>
+                            </div>
+                            <div class="result-card">
+                                <div class="result-label">Total Loan Amount</div>
+                                <div class="result-value" id="totalLoan">$0</div>
+                            </div>
+                            <div class="result-card">
+                                <div class="result-label">Total Cost</div>
+                                <div class="result-value" id="totalCost">$0</div>
+                            </div>
+                        </div>
+
+                        <div class="payment-breakdown">
+                            <h4 style="margin-bottom: 1rem; color: var(--dark-gray);">Monthly Payment Breakdown</h4>
+                            <div class="breakdown-item">
+                                <span>Principal & Interest</span>
+                                <span id="principalInterest">$0</span>
+                            </div>
+                            <div class="breakdown-item">
+                                <span>Property Tax</span>
+                                <span id="monthlyPropertyTax">$0</span>
+                            </div>
+                            <div class="breakdown-item">
+                                <span>Home Insurance</span>
+                                <span id="monthlyInsurance">$0</span>
+                            </div>
+                            <div class="breakdown-item">
+                                <span>PMI</span>
+                                <span id="monthlyPMI">$0</span>
+                            </div>
+                            <div class="breakdown-item">
+                                <span>HOA Fees</span>
+                                <span id="monthlyHOA">$0</span>
+                            </div>
+                            <div class="breakdown-item">
+                                <span><strong>Total Monthly Payment</strong></span>
+                                <span id="totalMonthlyPayment"><strong>$0</strong></span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="noResults" style="text-align: center; color: var(--light-gray); padding: 2rem;">
+                        <p style="font-size: 3rem; margin-bottom: 1rem;">🧮</p>
+                        <p>Enter your loan details and click "Calculate Payment" to see your results.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Amortization Schedule -->
+            <div class="amortization-section hidden" id="amortizationSection">
+                <div class="amortization-header">
+                    <h3>📅 Amortization Schedule</h3>
+                    <div class="year-selector">
+                        <label for="yearSelect">View Year:</label>
+                        <select id="yearSelect" onchange="updateAmortizationTable()">
+                            <!-- Years will be populated by JavaScript -->
+                        </select>
+                    </div>
+                </div>
+                <div class="table-scroll">
+                    <table class="amortization-table">
+                        <thead>
+                            <tr>
+                                <th>Month</th>
+                                <th>Payment</th>
+                                <th>Principal</th>
+                                <th>Interest</th>
+                                <th>Balance</th>
+                            </tr>
+                        </thead>
+                        <tbody id="amortizationTableBody">
+                            <!-- Table rows will be populated by JavaScript -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Agent Section -->
+    <section class="agent-section">
+        <div class="agent-content">
+            <img src="https://images.squarespace-cdn.com/content/v1/5f5be510cb09345a3c55f426/3ef0c7e0-1264-46e2-aee7-954f265e410b/Main+-+Logo-+Horizontal+-+White.png"
+                 alt="Lisa Murray" class="agent-photo-large">
+            <h2 class="display-font">Lisa Murray</h2>
+            <p class="brokerage">Russ Lyon Sotheby's International Realty</p>
+            <p style="margin-bottom: 2rem; line-height: 1.8;">
+                Specializing in Fountain Hills and Scottsdale luxury real estate, Lisa Murray brings unparalleled expertise
+                and dedication to every transaction. Whether you're buying your dream home or selling your property,
+                Lisa's commitment to excellence ensures exceptional results.
+            </p>
+            <div class="agent-contact">
+                <a href="tel:6024000250" class="contact-btn">Call Now</a>
+                <a href="mailto:Lisa@LisaMurrayRealtor.com" class="contact-btn">Email Lisa</a>
+                <a href="https://www.lisamurrayrealtor.com" target="_blank" class="contact-btn">Visit Website</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2025 Lisa Murray | Russ Lyon Sotheby's International Realty | All Rights Reserved</p>
+            <p>16872 East Avenue of the Fountains Suite 103, Fountain Hills, AZ 85268</p>
+            <p>For personalized mortgage advice and luxury property consultations,
+               <a href="tel:6024000250" class="footer-link">call Lisa at (602) 400-0250</a></p>
+        </div>
+    </footer>
+
+    <script>
+        let amortizationSchedule = [];
+
+        function calculateMortgage() {
+            // Get input values
+            const loanAmount = parseFloat(document.getElementById('loanAmount').value) || 0;
+            const downPayment = parseFloat(document.getElementById('downPayment').value) || 0;
+            const interestRate = parseFloat(document.getElementById('interestRate').value) || 0;
+            const loanTerm = parseInt(document.getElementById('loanTerm').value) || 30;
+            const propertyTax = parseFloat(document.getElementById('propertyTax').value) || 0;
+            const homeInsurance = parseFloat(document.getElementById('homeInsurance').value) || 0;
+            const pmi = parseFloat(document.getElementById('pmi').value) || 0;
+            const hoaFees = parseFloat(document.getElementById('hoaFees').value) || 0;
+
+            // Validate inputs
+            if (loanAmount <= 0) {
+                alert('Please enter a valid loan amount.');
+                return;
+            }
+
+            if (interestRate <= 0) {
+                alert('Please enter a valid interest rate.');
+                return;
+            }
+
+            // Calculate principal loan amount
+            const principal = loanAmount - downPayment;
+
+            if (principal <= 0) {
+                alert('Down payment cannot be equal to or greater than the home price.');
+                return;
+            }
+
+            // Calculate monthly payment
+            const monthlyRate = (interestRate / 100) / 12;
+            const numPayments = loanTerm * 12;
+
+            const monthlyPI = (principal * monthlyRate * Math.pow(1 + monthlyRate, numPayments)) /
+                             (Math.pow(1 + monthlyRate, numPayments) - 1);
+
+            // Calculate additional monthly costs
+            const monthlyPropertyTax = propertyTax / 12;
+            const monthlyInsurance = homeInsurance / 12;
+            const totalMonthlyPayment = monthlyPI + monthlyPropertyTax + monthlyInsurance + pmi + hoaFees;
+
+            // Calculate totals
+            const totalInterest = (monthlyPI * numPayments) - principal;
+            const totalCost = principal + totalInterest + downPayment;
+
+            // Update results display
+            document.getElementById('monthlyPayment').textContent = formatCurrency(monthlyPI);
+            document.getElementById('totalInterest').textContent = formatCurrency(totalInterest);
+            document.getElementById('totalLoan').textContent = formatCurrency(principal);
+            document.getElementById('totalCost').textContent = formatCurrency(totalCost);
+
+            // Update payment breakdown
+            document.getElementById('principalInterest').textContent = formatCurrency(monthlyPI);
+            document.getElementById('monthlyPropertyTax').textContent = formatCurrency(monthlyPropertyTax);
+            document.getElementById('monthlyInsurance').textContent = formatCurrency(monthlyInsurance);
+            document.getElementById('monthlyPMI').textContent = formatCurrency(pmi);
+            document.getElementById('monthlyHOA').textContent = formatCurrency(hoaFees);
+            document.getElementById('totalMonthlyPayment').textContent = formatCurrency(totalMonthlyPayment);
+
+            // Show results
+            document.getElementById('resultsContent').classList.remove('hidden');
+            document.getElementById('noResults').classList.add('hidden');
+
+            // Generate amortization schedule
+            generateAmortizationSchedule(principal, monthlyRate, numPayments, monthlyPI);
+
+            // Show amortization section
+            document.getElementById('amortizationSection').classList.remove('hidden');
+        }
+
+        function generateAmortizationSchedule(principal, monthlyRate, numPayments, monthlyPayment) {
+            amortizationSchedule = [];
+            let balance = principal;
+
+            // Populate year selector
+            const yearSelect = document.getElementById('yearSelect');
+            yearSelect.innerHTML = '';
+
+            const loanTerm = Math.ceil(numPayments / 12);
+            for (let year = 1; year <= loanTerm; year++) {
+                const option = document.createElement('option');
+                option.value = year;
+                option.textContent = `Year ${year}`;
+                yearSelect.appendChild(option);
+            }
+
+            // Generate schedule
+            for (let month = 1; month <= numPayments; month++) {
+                const interestPayment = balance * monthlyRate;
+                const principalPayment = monthlyPayment - interestPayment;
+                balance = Math.max(0, balance - principalPayment);
+
+                amortizationSchedule.push({
+                    month: month,
+                    year: Math.ceil(month / 12),
+                    monthInYear: ((month - 1) % 12) + 1,
+                    payment: monthlyPayment,
+                    principal: principalPayment,
+                    interest: interestPayment,
+                    balance: balance
+                });
+
+                if (balance <= 0) break;
+            }
+
+            updateAmortizationTable();
+        }
+
+        function updateAmortizationTable() {
+            const selectedYear = parseInt(document.getElementById('yearSelect').value);
+            const tableBody = document.getElementById('amortizationTableBody');
+            tableBody.innerHTML = '';
+
+            const yearData = amortizationSchedule.filter(row => row.year === selectedYear);
+
+            yearData.forEach(row => {
+                const tr = document.createElement('tr');
+                tr.innerHTML = `
+                    <td>Month ${row.monthInYear}</td>
+                    <td>${formatCurrency(row.payment)}</td>
+                    <td>${formatCurrency(row.principal)}</td>
+                    <td>${formatCurrency(row.interest)}</td>
+                    <td>${formatCurrency(row.balance)}</td>
+                `;
+                tableBody.appendChild(tr);
+            });
+        }
+
+        function formatCurrency(amount) {
+            return new Intl.NumberFormat('en-US', {
+                style: 'currency',
+                currency: 'USD',
+                minimumFractionDigits: 0,
+                maximumFractionDigits: 0
+            }).format(amount);
+        }
+
+        function printResults() {
+            window.print();
+        }
+
+        function downloadPDF() {
+            alert('To save as PDF, please use the Print option and select "Save as PDF" as your printer.');
+        }
+
+        // Auto-populate some default values for demo
+        document.addEventListener('DOMContentLoaded', function() {
+            document.getElementById('loanAmount').value = '850000';
+            document.getElementById('downPayment').value = '170000';
+            document.getElementById('interestRate').value = '6.75';
+            document.getElementById('propertyTax').value = '8500';
+            document.getElementById('homeInsurance').value = '2800';
+            document.getElementById('hoaFees').value = '250';
+        });
+    </script>
+</body>
+</html>
